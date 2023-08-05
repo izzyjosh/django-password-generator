@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>homepage</title>
+   <style>
+      * {
+         padding: 0;
+         margin: 0;
+         box-sizing: border-box;
+      }
+      .decorate {
+         margin: 10% 20px;
+         box-shadow: hsl(0, 0%, 70%) 0 0 10px;
+         color: white;
+         background: #8a8783;
+         }
+       h1 {
+          font-size: 25px;
+          color: #5f9ff7;
+          background: #5e5c70;
+          text-align: center;
+          padding: 10px;
+          margin: 5px 0px;
+       }
+       .user_data {
+          width: 70%;
+          padding: 10px;
+          margin: 10px 50px;
+          border: none;
+       }
+       /*input[type=checkbox] {
+          visibility: hidden;
+       }*/
+       .form-control {
+          font-family: Sans-Serif;
+          font-size: 1.3rem;
+          font-weight: bold;
+          line-height: 1.1;
+          display: grid;
+          grid-template-columns: 1em auto;
+          gap: 3em;
+          margin-left: 50px;
+       }
+       input[type="checkbox"] {
+         appearance: none;
+         background-color: #fff;
+        margin: 0;
+        font: inherit;
+        color: currentColor;
+        width: 1.15em;
+        height: 1.15em;
+        border: 0.15em solid currentColor;
+        border-radius: 0.15em;
+        transform: translateY(-0.075em);
+        display: grid;
+        place-content: center;
+         }
+       input[type="checkbox"]::before {
+        content: "";
+        width: 0.65em;
+        height: 0.65em;
+        transform: scale(0);
+        transition: 120ms transform ease-in-out;
+        box-shadow: inset 1em 1em var(--form-control-color);
+        background-color: CanvasText;
+         }
+        input[type="checkbox"]:checked::before {
+           transform: scale(1);
+         }
+
+       .form-control + .form-control {
+        margin-top: 1em;
+      }
+      .btn {
+         padding: 10px;
+         margin: 7px 10%;
+         width: 80%;
+         background: #5e5c70;
+         border: none;
+         font-size: 20px;
+         color: #5f9ff7;
+      }
+      a {
+         text-decoration: none;
+         color: #5f9ff7;
+      }
+      .num {
+         padding: 6px;
+         margin-left: 50px;
+         margin-bottom: 20px;
+         width: 40px;
+      }
+      #num{
+         margin-left: 2.5em;
+         font-size: 1.3rem;
+         font-weight: 600;
+      }
+       
+   </style>
+</head>
+<body>
+   <div class="decorate">
+   <header>
+      <h1>PASSWORD GENERATOR</h1>
+      {% for message in messages %}
+      <p>{{message}}</p>
+      {% endfor %}
+   </header>
+   <main>
+	   <form class="check_form" action="" method="post">
+	{% csrf_token %}
+         <input class="user_data" required type="text" placeholder="username" name="username">
+         <input class="user_data" required type="text" placeholder="site to be used" name="site">
+         <h1>Choose Password Combinations</h1>
+         <input id="num" class="num" type="number" name="length" max="50" min="8" value="12">
+         <label id="num" for="num">length</label>
+         <label class="form-control">
+            <input type="checkbox" name="uppercase">uppercase
+         </label>
+         <label class="form-control">
+            <input type="checkbox" name="lowercase">lowercase
+         </label>
+         <label class="form-control">
+            <input type="checkbox" name="numbers">numbers
+         </label>
+         <label class="form-control">
+            <input type="checkbox" name="special-characters">special character
+         </label>
+         
+      <button class="btn" type="submit">generate</button>
+      </form>
+      <button class="btn" ><a href="{% url 'signin' %}">Remember Password</a></button>
+      
+   </main>
+   </div>
+</body>
+</html>

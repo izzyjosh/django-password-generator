@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>password forgotten</title>
+   <style>
+      * {
+         padding: 0;
+         margin: 0;
+         box-sizing: border-box;
+      }
+      .decorate {
+         margin: 30% 30%;
+         box-shadow: hsl(0, 0%, 70%) 0 0 10px;
+         color: white;
+         background: #8a8783;
+         }
+       h1 {
+          font-size: 25px;
+          color: #5f9ff7;
+          background: #5e5c70;
+          text-align: center;
+          padding: 10px;
+          margin: 5px 0px;
+       }
+       .user_data {
+          width: 70%;
+          padding: 10px;
+          margin: 10px 50px;
+          border: none;}
+       .btn {
+         padding: 10px;
+         margin: 7px 10%;
+         width: 80%;
+         background: #5e5c70;
+         border: none;
+         font-size: 20px;
+         color: #5f9ff7;
+      }
+      p {
+         text-align: center;
+         font-size: 15px;
+      }
+      a {
+         text-decoration: none;
+      }
+   </style>
+</head>
+<body>
+   <div class="decorate">
+   <header>
+      <h1>Recover Password</h1>
+   </header>
+   <main>
+      {% for message in messages %}
+      <p>{{message}}</p>
+      {% endfor %}
+      <form action="" method="post">
+         {% csrf_token %}
+	 {{forgotten_password}}
+         <button class="btn" >create account</button>
+      </form>
+   </main>
+   <footer>
+	   <p>Go to <a href="{% url 'signin' %}">HOME</a></p>
+   </footer>
+   </div>
+</body>
+</html>

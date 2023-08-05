@@ -1,0 +1,29 @@
+{% extends "root.html" %}
+{% block title %}Sign in {% endblock %}
+
+{% block content %}
+<body>
+   <div class="decorate">
+   <header>
+      <h1>Retrieve Password</h1>
+      {% for message in messages %}
+      <p>{{message}}</p>
+      {% endfor %}
+      </header>
+   <main>
+      <form action="" method="post">
+	{% csrf_token %}
+         <input class="user_data" type="text" placeholder="username" name="username">
+         <input class="user_data" type="password" placeholder="password" name="password">
+         <button class="btn">Login to Account</button>
+      </form>
+   </main>
+   <footer>
+	   <p>don't have an account ?<a href="{% url 'signup' %}">signup</a></p>
+	   <p><a id="f_id" href="{% url 'forgotten' %}">forgotten password ?</a></p>
+	   <button class="btn"><a href="{% url 'index' %}">Home Page</a></button>
+   </footer>
+   </div>
+   
+</body>
+{% endblock %}
