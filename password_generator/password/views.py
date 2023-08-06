@@ -180,7 +180,7 @@ def view_pass(request, username):
     return render(request, "view_pass.html", context)
 
 
-def forgotten(request):
+def forgotten(request): 
     if request.method == "POST":
 
         forgotten_password = ForgottenPassword(request.POST)
@@ -188,19 +188,19 @@ def forgotten(request):
             username = forgotten_password.cleaned_data["username"]
             email = forgotten_password.cleaned_data["email"]
 
-            code = random.choices("0987654321", k=6)
-            USER = email
+            code = "".join(random.choices("0987654321", k=6))
+            USER = "joshuajosephizzyjosh@gmail.com"
             PASSWORD = "fdbcgktkbkebfjhm"
 
             server = smtplib.SMTP("smtp.gmail.com", 587)
             server.starttls()
             server.login(USER, PASSWORD)
-            server.sendmail(USER, ["calebayuba222@gmail.com", ], code)
+            server.sendmail(USER, [email], code)
 
 
             messages.info(request, "email sent check for you mail for code")
 
-            return redirect("#")
+            return redirect("insert",code=code)
         else:
             messages.error(request, "please validate all your input field")
     else:
@@ -237,3 +237,19 @@ def update(request):
 
     return render(request, "update.html", {"update_pass":update_pass})
 
+
+def insert(request,code):
+    if request.method == "POST":
+        insert = Insert(request.POST)
+        if insert.is_valid():
+            user_code = insert.cleaned_data["code"]
+
+            if code == str(user_code):
+                return redirect("update_pass")
+            else:
+                messages.error(request,"invalid code")
+        else:
+            messages.error(request,"please fill form data properly")
+    else:
+        insert = Insert()
+    return render(request,"insert.html",{"insert":insert})

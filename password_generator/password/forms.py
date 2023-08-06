@@ -30,3 +30,12 @@ class UpdatePassword(forms.Form):
                 attrs={
                     "placeholder":"confirm_password", "class":"user_data"}),
                 label=False,)
+
+
+class Insert(forms.Form):
+    code = forms.CharField(
+        widget=forms.NumberInput(attrs={
+            "placeholder":"code","class":"userdata"
+        }),
+        label=False,
+)
