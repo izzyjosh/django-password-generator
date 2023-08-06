@@ -187,20 +187,21 @@ def forgotten(request):
         if forgotten_password.is_valid():
             username = forgotten_password.cleaned_data["username"]
             email = forgotten_password.cleaned_data["email"]
+            try:
+                code = "".join(random.choices("0987654321", k=6))
+                USER = "joshuajosephizzyjosh@gmail.com"
+                PASSWORD = "fdbcgktkbkebfjhm"
 
-            code = "".join(random.choices("0987654321", k=6))
-            USER = "joshuajosephizzyjosh@gmail.com"
-            PASSWORD = "fdbcgktkbkebfjhm"
+                server = smtplib.SMTP("smtp.gmail.com", 587)
+                server.starttls()
+                server.login(USER, PASSWORD)
+                server.sendmail(USER, [email], code)
+                messages.info(request, "email sent check for you mail for code")
 
-            server = smtplib.SMTP("smtp.gmail.com", 587)
-            server.starttls()
-            server.login(USER, PASSWORD)
-            server.sendmail(USER, [email], code)
-
-
-            messages.info(request, "email sent check for you mail for code")
-
-            return redirect("insert",code=code)
+                return redirect("insert",code=code)
+            except TimeoutError:
+                messages.error(request,"this page cannot be reached")
+                return redirect("forgotten")
         else:
             messages.error(request, "please validate all your input field")
     else:
