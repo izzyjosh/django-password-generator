@@ -8,7 +8,7 @@ from django.db.models import Q
 import re
 import base64
 import smtplib
-from .forms import ForgottenPassword, UpdatePassword
+from .forms import ForgottenPassword, UpdatePassword,Insert
 from django.contrib.auth import get_user_model
 
 

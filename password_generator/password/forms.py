@@ -35,7 +35,7 @@ class UpdatePassword(forms.Form):
 class Insert(forms.Form):
     code = forms.CharField(
         widget=forms.NumberInput(attrs={
-            "placeholder":"code","class":"userdata"
+            "placeholder":"code","class":"user_data"
         }),
         label=False,
 )
