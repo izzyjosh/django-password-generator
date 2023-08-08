@@ -10,6 +10,7 @@ import base64
 import smtplib
 from .forms import ForgottenPassword,MyPasswordChangeForm
 from django.contrib.auth import get_user_model,update_session_auth_hash 
+from django.contrib.auth.decorators import login_required
 
 
 #homepage view function
@@ -140,6 +141,7 @@ def logout(request):
 
 
 #view function to view your generated password
+
 def dis_pass(request, username):
 
     #query the database to get the resent user who generated a password
@@ -154,6 +156,7 @@ def dis_pass(request, username):
 
 
 #view function to view all your generated password
+@login_required(login_url="signin")
 def view_pass(request, username):
 
     #a search bar that help get a particular sites password
@@ -179,7 +182,7 @@ def view_pass(request, username):
             }
     return render(request, "view_pass.html", context)
 
-
+@login_required(login_url="signin")
 def forgotten(request): 
     if request.method == "POST":
 
@@ -209,9 +212,11 @@ def forgotten(request):
     return render(request, "forgotten.html", {"forgotten_password":forgotten_password})
 
 
-
+@login_required(login_url="signin")
 def update(request):
-    if request.user.is_authenticated:
+    if not request.user.is_authenticated:
+        return redirect("signin")
+    else:
         if request.method == "POST":
             form = MyPasswordChangeForm(request.user,request.POST)
             if form.is_valid():
@@ -223,7 +228,5 @@ def update(request):
                 messages.error(request,"your form is invalid please try resetting it")
         else:
             form = MyPasswordChangeForm(request.user)
-    else:
-        return redirect("signin")
 
     return render(request, "update.html", {"form":form})
