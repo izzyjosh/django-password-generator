@@ -8,8 +8,8 @@ from django.db.models import Q
 import re
 import base64
 import smtplib
-from .forms import ForgottenPassword, UpdatePassword,Insert
-from django.contrib.auth import get_user_model
+from .forms import ForgottenPassword,MyPasswordChangeForm
+from django.contrib.auth import get_user_model,update_session_auth_hash 
 
 
 #homepage view function
@@ -213,44 +213,15 @@ def forgotten(request):
 def update(request):
 
     if request.method == "POST":
-        update_pass = UpdatePassword(request.POST)
-        if update_pass.is_valid():
-            username = update_pass.cleaned_data["username"]
-            password = update_pass.cleaned_data["password"]
-            con_password = update_pass.cleaned_data["confirm_password"]
-
-            if password == con_password:
-                if User.objects.filter(username=username).exists():
-                    user = get_user_model().objects.get(username=username)
-                    user.set_password = password
-                    user.save()
-                    messages.info(request, "password successfully updated")
-                    return redirect("signin")
-
-                else:
-                    messages.error(request, "the username inputed does not exists")
-            else:
-                messages.error(request, "both password does not match")
+        form = MyPasswordChangeForm(request.user,request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request,user)
+            messages.info(request,"successfully updated the user password ")
+            return redirect("signin")
         else:
-            messages.error(request, "please verify your inputs")
+            messages.error(request,"your form is invalid please try resetting it")
     else:
-        update_pass = UpdatePassword()
+        form = MyPasswordChangeForm(request.user)
 
-    return render(request, "update.html", {"update_pass":update_pass})
-
-
-def insert(request,code):
-    if request.method == "POST":
-        insert = Insert(request.POST)
-        if insert.is_valid():
-            user_code = insert.cleaned_data["code"]
-
-            if code == str(user_code):
-                return redirect("update_pass")
-            else:
-                messages.error(request,"invalid code")
-        else:
-            messages.error(request,"please fill form data properly")
-    else:
-        insert = Insert()
-    return render(request,"insert.html",{"insert":insert})
+    return render(request, "update.html", {"form":form})

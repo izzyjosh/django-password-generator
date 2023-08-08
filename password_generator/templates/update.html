@@ -12,7 +12,7 @@
          box-sizing: border-box;
       }
       .decorate {
-         margin: 30% 30%;
+         margin: 30% 20px;
          box-shadow: hsl(0, 0%, 70%) 0 0 10px;
          color: white;
          background: #8a8783;
@@ -29,7 +29,8 @@
           width: 70%;
           padding: 10px;
           margin: 10px 50px;
-          border: none;}
+          border: none;
+      }
        .btn {
          padding: 10px;
          margin: 7px 10%;
@@ -59,7 +60,7 @@
      {% endfor %}
       <form action="" method="post">
          {%csrf_token%}
-	 {{update_pass}}
+	 {{form}}
          <button class="btn" >update</button>
       </form>
    </main>
