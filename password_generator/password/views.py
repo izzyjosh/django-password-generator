@@ -211,7 +211,7 @@ def forgotten(request):
 
 
 def update(request):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         if request.method == "POST":
             form = MyPasswordChangeForm(request.user,request.POST)
             if form.is_valid():
