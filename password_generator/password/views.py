@@ -211,17 +211,19 @@ def forgotten(request):
 
 
 def update(request):
-
-    if request.method == "POST":
-        form = MyPasswordChangeForm(request.user,request.POST)
-        if form.is_valid():
-            user = form.save()
-            update_session_auth_hash(request,user)
-            messages.info(request,"successfully updated the user password ")
-            return redirect("signin")
+    if request.user.is_authenticated():
+        if request.method == "POST":
+            form = MyPasswordChangeForm(request.user,request.POST)
+            if form.is_valid():
+                user = form.save()
+                update_session_auth_hash(request,user)
+                messages.info(request,"successfully updated the user password ")
+                return redirect("signin")
+            else:
+                messages.error(request,"your form is invalid please try resetting it")
         else:
-            messages.error(request,"your form is invalid please try resetting it")
+            form = MyPasswordChangeForm(request.user)
     else:
-        form = MyPasswordChangeForm(request.user)
+        return redirect("signin")
 
     return render(request, "update.html", {"form":form})
