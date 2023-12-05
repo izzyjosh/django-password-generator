@@ -1,33 +1,115 @@
 from django import forms
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import PasswordChangeForm,SetPasswordForm,PasswordResetForm,UserCreationForm
+from django.contrib.auth.models import User
 
 
-class ForgottenPassword(forms.Form):
-    username = forms.CharField(
-            widget=forms.TextInput(
-                attrs={
-                    "placeholder":"username", "class":"user_data"}), 
-            label=False, 
-            max_length=30)
-    email = forms.CharField(
-            widget=forms.EmailInput(
-                attrs={
-                    "placeholder":"email", "class":"user_data"}), 
-            label=False, )
+class CustomPasswordResetForm(PasswordResetForm):
 
-
-class MyPasswordChangeForm(PasswordChangeForm):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
-        self.fields["old_password"].widget=forms.PasswordInput(attrs={
-            "class":"user_data","placeholder":"old password"})
-        self.fields["old_password"].label=False
-        self.fields["new_password1"].widget=forms.PasswordInput(attrs={
-            "class":"user_data","placeholder":"new password"})
-        self.fields["new_password1"].label=False
-        self.fields["new_password2"].widget=forms.PasswordInput(attrs={
-            "class":"user_data","placeholder":"new password"})
-        self.fields["new_password2"].label=False
+
+    email = forms.EmailField(
+            label="",
+            required=True,
+            widget = forms.EmailInput(attrs={
+                "placeholder":"Valid Email",
+                "type":"email",
+                "name":"email",
+                "class":"form-control",
+                })
+            )
+    class Meta:
+        model = User
+        fields = ("email")
+
+class CustomSetPasswordForm(SetPasswordForm):
+
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+
+    new_password1 = forms.CharField(
+        label="",
+        required=True,
+        help_text="",
+        widget = forms.PasswordInput(attrs={
+            "placeholder":"password",
+            "type":"password",
+            "name":"password1",
+            "class":"form-control",
+            })
+        )
+
+    new_password2 = forms.CharField(
+        label="",
+        required=True,
+        help_text="",
+        widget = forms.PasswordInput(attrs={
+            "placeholder":"confirm password",
+            "type":"password",
+            "name":"password1",
+            "class":"form-control",
+            })
+        )
+
+    class Meta:
+        model = User
+        fields = ("new_password1","new_password2")
 
 
+class UserRegistrationForm(UserCreationForm):
+
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+
+
+    username = forms.CharField(
+            label="",
+            required=True,
+            help_text="",
+            widget = forms.TextInput(attrs={
+                "placeholder":"username",
+                "name":"username",
+                "class":"username",
+                "type":"text",
+                })
+            )
+
+    email = forms.EmailField(
+        label="",
+        required=True,
+        widget = forms.TextInput(attrs={
+            "placeholder":"Email",
+            "type":"email",
+            "name":"email",
+            "class":"email",
+            })
+        )
+
+    password1 = forms.CharField(
+        label="",
+        required=True,
+        help_text="",
+        widget = forms.PasswordInput(attrs={
+            "placeholder":"password",
+            "type":"password",
+            "name":"password1",
+            "class":"password",
+            })
+        )
+    
+    password2 = forms.CharField(
+        label="",
+        required=True,
+        help_text="",
+        widget = forms.PasswordInput(attrs={
+            "placeholder":"confirm password",
+            "type":"password",
+            "name":"password1",
+            "class":"password",
+            })
+        )
+
+    class Meta:
+        model = User
+        fields = ("email","username")
 
