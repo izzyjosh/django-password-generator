@@ -1,29 +1,37 @@
 {% extends "root.html" %}
-{% block title%} Sign up {% endblock%}
-
+{% block title %} Sign Up {% endblock %}
 {% block content %}
-<body>
-   <div class="decorate">
-   <header>
-      <h1>Create An Account</h1>
-      {% for message in messages%}
-      <p>{{message}}</p>
-      {% endfor %}
-   </header>
-   <main>
-      <form action="" method="post">
-	{% csrf_token %}
-         <input class="user_data" type="text" placeholder="username" name="username">
-         <input class="user_data" type="email" placeholder="email" name="email">
-         <input class="user_data" type="password" placeholder="password" name="password">
-         <input class="user_data" type="password" placeholder="confirm password" name="confirm_password">
-         <button class="btn" >create account</button>
-      </form>
-   </main>
-   <footer>
-	   <p>already have an account ?<a href="{% url 'signin' %}">sign in</a></p>
-	   <button class="btn"><a href="{% url     'index' %}">Home Page</a></button>
-   </footer>
-   </div>
-</body>
+<legend class="title">Sign Up</legend>
+{% for message in messages %}
+<div class="error-msg">
+  {{ message }}
+</div>
+{% endfor %}
+<div class="error-texts">
+  {% if form.errors %}
+  {% for error in form.errors.values %}
+  {{ error }}
+  {% endfor %}
+  {% endif %}
+</div>
+<form id="auth-form" method="post">
+  {% csrf_token %}
+  {{ form.email }}
+  <br>
+  {{ form.username }}
+  <br>
+  <div class="password-field">
+    {{ form.password1 }}
+    <i class="bi bi-eye-slash" id="eye"></i>
+  </div>
+  <div class="password-field">
+    {{ form.password2 }}
+    <i class="bi bi-eye-slash" id="eye"></i>
+  </div>
+  <button class="signup-btn">Sign Up</button>
+  <div class="form-footer">
+    <span class="b">Already have an account?</span>
+    <a class="b" href="{% url 'login' %}">Sign In</a>
+  </div>
+</form>
 {% endblock %}
