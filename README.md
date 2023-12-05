@@ -10,3 +10,5 @@ It also help user to recall password,
 It help users to generate strong password, 
 For each password ,the place it will be used must be specified which is the site .
 
+# Run Project
+Install all packages by running this code `pip install -r requirments.txt`, then `python manage.py runserver`.
