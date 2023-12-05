@@ -5,8 +5,8 @@ It also can generate a password for site specified. Password cannot be created f
 
 # Problem This Project Solves
 
-It help the user to store password safely
-It also help user to recall password
-It help users to generate strong password 
+It help the user to store password safely, 
+It also help user to recall password, 
+It help users to generate strong password, 
 For each password ,the place it will be used must be specified which is the site .
 
