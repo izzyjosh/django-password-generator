@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input[type="range"]::-webkit-slider-thumb {
+  width: 12px;
+  height: 36px;
+  -webkit-appearance: none;
+  background: white;
+  border: 1px solid black;
+  border-radius: 3px;
+  box-shadow:
+    0px 0px 0px black,
+    0px 0px 1px gray;
+}
+
+input[type="range"] {
+  background: linear-gradient(to right, #3b82f6 50%, #e5e7eb 50%);
+  outline: none;
+  transition: background 0.15s ease-in-out;
+}
